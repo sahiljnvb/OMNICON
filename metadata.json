@@ -1,0 +1,6 @@
+{
+  "name": "OmniConvert Mobile",
+  "description": "Fast, private, 100% offline file converter for mobile and web. Convert PDF, Word, EPUB, all image types, and audio formats locally without internet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
