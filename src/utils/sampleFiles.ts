@@ -71,7 +71,9 @@ export const HINDI_POEM_TEXT = `कालिदास से चैटजीप�
  */
 export async function createSampleHindiPoemPdf(): Promise<File> {
   try {
-    const res = await fetch('/samples/kalidas_se_chatgpt_tak.pdf');
+    const base = typeof window !== 'undefined' ? (import.meta.env.BASE_URL || './') : './';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
+    const res = await fetch(`${cleanBase}samples/kalidas_se_chatgpt_tak.pdf`);
     if (res.ok) {
       const blob = await res.blob();
       return new File([blob], 'kalidas_se_chatgpt_tak.pdf', { type: 'application/pdf' });

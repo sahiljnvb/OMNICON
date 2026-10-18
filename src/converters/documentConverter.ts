@@ -30,9 +30,11 @@ import { DocumentFormat, DocumentOptions } from '../types/conversion';
 import { cleanDevanagariText } from '../utils/devanagariUtils';
 export { cleanDevanagariText };
 
-// Configure pdfjs worker to use local offline worker asset
+// Configure pdfjs worker to use local offline worker asset with dynamic base support
 if (typeof window !== 'undefined') {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+  const base = import.meta.env.BASE_URL || './';
+  const cleanBase = base.endsWith('/') ? base : `${base}/`;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `${cleanBase}pdf.worker.min.mjs`;
 }
 
 interface TextPositionedItem {
@@ -190,12 +192,14 @@ export async function extractTextFromPdf(
   const pagesText: string[] = [];
 
   try {
+    const base = typeof window !== 'undefined' ? (import.meta.env.BASE_URL || './') : './';
+    const cleanBase = base.endsWith('/') ? base : `${base}/`;
     const loadingTask = pdfjsLib.getDocument({
       data: uint8Data,
       useSystemFonts: true,
-      cMapUrl: '/cmaps/',
+      cMapUrl: `${cleanBase}cmaps/`,
       cMapPacked: true,
-      standardFontDataUrl: '/standard_fonts/',
+      standardFontDataUrl: `${cleanBase}standard_fonts/`,
     });
     const pdf = await loadingTask.promise;
 
